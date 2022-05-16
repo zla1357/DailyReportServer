@@ -1,6 +1,8 @@
 package com.mycompany.dailyreport.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -9,13 +11,19 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Report {
 
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
-    public String author;
-    public String content;
+    private String author;
+    private String content;
+
+    public Report(Long id, String author, String content) {
+        this.id = id;
+        this.author = author;
+        this.content = content;
+    }
 }
