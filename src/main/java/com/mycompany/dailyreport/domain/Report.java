@@ -21,8 +21,7 @@ public class Report {
     private String author;
     private String content;
 
-    public Report(Long id, String author, String content) {
-        this.id = id;
+    public Report(String author, String content) {
         this.author = author;
         this.content = content;
     }
