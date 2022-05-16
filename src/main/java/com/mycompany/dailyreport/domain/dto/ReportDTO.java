@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public class ReportDTO {
 
-    private Long id;
     private String author;
     private String content;
 }
