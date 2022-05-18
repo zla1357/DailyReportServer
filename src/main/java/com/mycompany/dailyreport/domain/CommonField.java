@@ -11,5 +11,5 @@ import java.time.LocalDateTime;
 public abstract class CommonField {
 
     protected LocalDateTime inputDate;
-    protected LocalDateTime updateTime;
+    protected LocalDateTime updateDate;
 }
