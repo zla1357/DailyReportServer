@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,5 +25,12 @@ public class ReportService {
 
     public Report getReport(Long reportId) {
         return reportRepository.findOne(reportId);
+    }
+
+    public List<Report> searchReportsInPeriod(String startDate, String endDate) {
+        LocalDate periodStart = LocalDate.of(Integer.parseInt(startDate.split("-")[0]), Integer.parseInt(startDate.split("-")[1]), Integer.parseInt(startDate.split("-")[2]));
+        LocalDate periodEnd = LocalDate.of(Integer.parseInt(endDate.split("-")[0]), Integer.parseInt(endDate.split("-")[1]), Integer.parseInt(endDate.split("-")[2]));
+
+        return reportRepository.findWithPeriod(periodStart.atStartOfDay(), periodEnd.atStartOfDay());
     }
 }
