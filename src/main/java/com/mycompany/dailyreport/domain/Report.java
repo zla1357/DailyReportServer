@@ -25,6 +25,6 @@ public class Report extends CommonField {
         this.author = author;
         this.content = content;
         super.inputDate = LocalDateTime.now();
-        super.updateTime = LocalDateTime.now();
+        super.updateDate = LocalDateTime.now();
     }
 }
