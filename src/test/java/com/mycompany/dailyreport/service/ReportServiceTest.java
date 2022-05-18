@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -30,6 +30,6 @@ class ReportServiceTest {
 
         // then
         Report findReport = reportService.getReport(findId);
-        Assertions.assertThat(findReport).isEqualTo(report);
+        assertThat(findReport).isEqualTo(report);
     }
 }
