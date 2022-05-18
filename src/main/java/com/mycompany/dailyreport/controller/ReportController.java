@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,8 +29,13 @@ public class ReportController {
 
     @GetMapping("report")
     @ResponseBody
-    public Report openReport(Long id) {
-
+    public Report getReport(Long id) {
         return reportService.getReport(id);
+    }
+
+    @GetMapping("reports")
+    @ResponseBody
+    public List<Report> getReportsInPeriod(String startDate, String endDate) {
+        return reportService.searchReportsInPeriod(startDate, endDate);
     }
 }
