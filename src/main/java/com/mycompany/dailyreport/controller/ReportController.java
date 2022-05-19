@@ -5,9 +5,7 @@ import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import com.mycompany.dailyreport.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,23 +17,30 @@ public class ReportController {
 
     @PostMapping("report")
     @ResponseBody
-    public String registerReport(ReportDTO reportDTO) {
-
-        Report report = new Report(reportDTO.getAuthor(), reportDTO.getContent());
-        reportService.registerReport(report);
+    public String registerReport(@RequestBody ReportDTO reportDTO) {
+        reportService.registerReport(new Report(reportDTO));
 
         return "OK";
     }
 
-    @GetMapping("report")
+    @GetMapping("report/{id}")
     @ResponseBody
-    public Report getReport(Long id) {
+    public Report getReport(@PathVariable("id") Long id) {
         return reportService.getReport(id);
     }
 
     @GetMapping("reports")
     @ResponseBody
-    public List<Report> getReportsInPeriod(String startDate, String endDate) {
+    public List<Report> getReportsInPeriod(@RequestParam String startDate, @RequestParam String endDate) {
         return reportService.searchReportsInPeriod(startDate, endDate);
+    }
+
+    @PostMapping("report/modify/{id}")
+    @ResponseBody
+    public String modifyReport(@PathVariable("id") Long id, @RequestBody ReportDTO reportDTO) {
+
+        reportService.modifyReport(id, reportDTO);
+
+        return "OK";
     }
 }
