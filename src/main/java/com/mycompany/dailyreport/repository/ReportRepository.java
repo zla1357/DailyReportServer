@@ -1,11 +1,11 @@
 package com.mycompany.dailyreport.repository;
 
 import com.mycompany.dailyreport.domain.Report;
+import com.mycompany.dailyreport.service.DateTimePeriod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -27,10 +27,10 @@ public class ReportRepository {
                 .getResultList();
     }
 
-    public List<Report> findWithPeriod(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Report> findWithPeriod(DateTimePeriod dateTimePeriod) {
         return em.createQuery("select r from Report r where inputDate between :startDate and :endDate", Report.class)
-                .setParameter("startDate", startDate)
-                .setParameter("endDate", endDate)
+                .setParameter("startDate", dateTimePeriod.getStartDate())
+                .setParameter("endDate", dateTimePeriod.getEndDate())
                 .getResultList();
     }
 }
