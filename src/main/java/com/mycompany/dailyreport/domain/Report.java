@@ -1,5 +1,6 @@
 package com.mycompany.dailyreport.domain;
 
+import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,15 @@ public class Report extends CommonField {
     private String author;
     private String content;
 
-    public Report(String author, String content) {
-        this.author = author;
-        this.content = content;
+    public Report(ReportDTO reportDTO) {
+        this.author = reportDTO.getAuthor();
+        this.content = reportDTO.getContent();
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
+    }
+
+    public void modifyReport(String author, String content) {
+        this.author = author;
+        this.content = content;
     }
 }
