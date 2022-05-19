@@ -1,6 +1,7 @@
 package com.mycompany.dailyreport.service;
 
 import com.mycompany.dailyreport.domain.Report;
+import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import com.mycompany.dailyreport.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,17 @@ public class ReportService {
     }
 
     public List<Report> searchReportsInPeriod(String startDate, String endDate) {
-        LocalDate periodStart = LocalDate.of(Integer.parseInt(startDate.split("-")[0]), Integer.parseInt(startDate.split("-")[1]), Integer.parseInt(startDate.split("-")[2]));
-        LocalDate periodEnd = LocalDate.of(Integer.parseInt(endDate.split("-")[0]), Integer.parseInt(endDate.split("-")[1]), Integer.parseInt(endDate.split("-")[2]));
+        return reportRepository.findWithPeriod(new DateTimePeriod(startDate, endDate));
+    }
 
-        return reportRepository.findWithPeriod(periodStart.atStartOfDay(), periodEnd.atStartOfDay());
+    @Transactional
+    public Long modifyReport(Long id, ReportDTO reportDTO) {
+
+        Report report = reportRepository.findOne(id);
+        report.modifyReport(reportDTO.getAuthor(), reportDTO.getContent());
+
+        reportRepository.save(report);
+
+        return id;
     }
 }
