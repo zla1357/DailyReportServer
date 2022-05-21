@@ -19,12 +19,13 @@ public class ReportRepository {
     }
 
     public Report findOne(Long id) {
-        return em.find(Report.class, id);
-    }
-
-    public List<Report> findAll() {
-        return em.createQuery("select r from Report", Report.class)
-                .getResultList();
+        return em.createQuery(
+                        "select r " +
+                                "from Report r " +
+                                "left join fetch r.member " +
+                                "where r.id = :id", Report.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     public List<Report> findWithPeriod(DateTimePeriod dateTimePeriod) {
