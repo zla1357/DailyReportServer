@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Setter
 public class ReportDTO {
 
-    private String author;
     private Long memberId;
     private String content;
     private LocalDate inputDate;
