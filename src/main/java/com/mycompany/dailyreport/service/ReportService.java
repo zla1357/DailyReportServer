@@ -35,7 +35,7 @@ public class ReportService {
     public Long modifyReport(Long id, ReportDTO reportDTO) {
 
         Report report = reportRepository.findOne(id);
-        report.modifyReport(reportDTO.getAuthor(), reportDTO.getContent());
+        report.modifyReport(reportDTO.getContent());
 
         reportRepository.save(report);
 
