@@ -28,7 +28,11 @@ public class ReportRepository {
     }
 
     public List<Report> findWithPeriod(DateTimePeriod dateTimePeriod) {
-        return em.createQuery("select r from Report r where inputDate between :startDate and :endDate", Report.class)
+        return em.createQuery(
+                "select r " +
+                        "from Report r " +
+                        "left join fetch r.member " +
+                        "where r.inputDate between :startDate and :endDate", Report.class)
                 .setParameter("startDate", dateTimePeriod.getStartDate())
                 .setParameter("endDate", dateTimePeriod.getEndDate())
                 .getResultList();
