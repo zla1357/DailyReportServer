@@ -96,7 +96,6 @@ class ReportServiceTest {
         em.clear();
 
         ReportDTO reportDTO2 = new ReportDTO();
-        reportDTO2.setAuthor("김효일");
         reportDTO.setContent("잘했다");
 
         // when
