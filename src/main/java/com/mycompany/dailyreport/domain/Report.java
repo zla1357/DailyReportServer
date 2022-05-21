@@ -29,7 +29,8 @@ public class Report extends CommonField {
         super.updateDate = LocalDateTime.now();
     }
 
-    public void modifyReport(String author, String content) {
+    public void modifyReport(String content) {
         this.content = content;
+        this.updateDate = LocalDateTime.now();
     }
 }
