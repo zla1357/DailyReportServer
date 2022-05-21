@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class ReportDTO {
 
     private String author;
+    private Long memberId;
     private String content;
     private LocalDate inputDate;
     private LocalDate updateDate;
