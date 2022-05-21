@@ -1,6 +1,8 @@
 package com.mycompany.dailyreport.service;
 
+import com.mycompany.dailyreport.domain.Member;
 import com.mycompany.dailyreport.domain.Report;
+import com.mycompany.dailyreport.domain.dto.MemberDTO;
 import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,22 +24,31 @@ class ReportServiceTest {
 
     @Autowired
     ReportService reportService;
+
+    @Autowired
+    MemberService memberService;
+
     @Autowired
     EntityManager em;
 
     @Test
     public void 업무일지_등록() throws Exception {
         // given
+
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setName("김효중");
+        Member member = new Member(memberDTO);
+        memberService.registerMember(member);
+
         ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setAuthor("김효중");
         reportDTO.setContent("일했다");
-        Report report = new Report(reportDTO);
+        Report report = new Report(reportDTO, member);
 
         // when
-        Long findId = reportService.registerReport(report);
+        Long registerReportId = reportService.registerReport(report);
 
         // then
-        Report findReport = reportService.getReport(findId);
+        Report findReport = reportService.getReport(registerReportId);
         assertThat(findReport).isEqualTo(report);
     }
 
@@ -45,10 +56,14 @@ class ReportServiceTest {
     public void 기간내_업무일지_조회() throws Exception {
         // given
         ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setAuthor("김효중");
         reportDTO.setContent("일했다");
 
-        Report report = new Report(reportDTO);
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setName("김효중");
+        Member member = new Member(memberDTO);
+        memberService.registerMember(member);
+
+        Report report = new Report(reportDTO, member);
         Long saveReportId = reportService.registerReport(report);
 
         // when
@@ -68,10 +83,14 @@ class ReportServiceTest {
     public void 업무일지_수정() throws Exception {
         // given
         ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setAuthor("김효중");
         reportDTO.setContent("일했다");
 
-        Long saveId = reportService.registerReport(new Report(reportDTO));
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setName("김효중");
+        Member member = new Member(memberDTO);
+        memberService.registerMember(member);
+
+        Long saveId = reportService.registerReport(new Report(reportDTO, member));
         Report report1 = reportService.getReport(saveId);
         em.flush();
         em.clear();
