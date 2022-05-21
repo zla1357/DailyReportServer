@@ -1,7 +1,9 @@
 package com.mycompany.dailyreport.controller;
 
+import com.mycompany.dailyreport.domain.Member;
 import com.mycompany.dailyreport.domain.Report;
 import com.mycompany.dailyreport.domain.dto.ReportDTO;
+import com.mycompany.dailyreport.service.MemberService;
 import com.mycompany.dailyreport.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,14 @@ import java.util.List;
 public class ReportController {
 
     private final ReportService reportService;
+    private final MemberService memberService;
 
     @PostMapping("report")
     @ResponseBody
     public String registerReport(@RequestBody ReportDTO reportDTO) {
-        reportService.registerReport(new Report(reportDTO));
+
+        Member registerMember = memberService.getMember(reportDTO.getMemberId());
+        reportService.registerReport(new Report(reportDTO, registerMember));
 
         return "OK";
     }
