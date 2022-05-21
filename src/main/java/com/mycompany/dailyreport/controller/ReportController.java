@@ -35,7 +35,7 @@ public class ReportController {
         return reportService.searchReportsInPeriod(startDate, endDate);
     }
 
-    @PostMapping("report/modify/{id}")
+    @PutMapping("report/{id}")
     @ResponseBody
     public String modifyReport(@PathVariable("id") Long id, @RequestBody ReportDTO reportDTO) {
 
