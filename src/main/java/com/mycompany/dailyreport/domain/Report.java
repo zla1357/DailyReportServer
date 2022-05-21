@@ -5,9 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,18 +17,19 @@ public class Report extends CommonField {
     @GeneratedValue
     private Long id;
 
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
     private String content;
 
-    public Report(ReportDTO reportDTO) {
-        this.author = reportDTO.getAuthor();
+    public Report(ReportDTO reportDTO, Member member) {
+        this.member = member;
         this.content = reportDTO.getContent();
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
     }
 
     public void modifyReport(String author, String content) {
-        this.author = author;
         this.content = content;
     }
 }
