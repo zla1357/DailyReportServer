@@ -35,4 +35,29 @@ class MemberServiceTest {
         Member findMember = memberService.getMember(findId);
         assertThat(findMember).isEqualTo(member);
     }
+
+    @Test
+    public void 사용자정보_수정() throws Exception {
+        // given
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setName("김효중");
+
+        Member member1 = new Member(memberDTO);
+
+        Long savedId = memberService.registerMember(member1);
+
+        em.flush();
+        em.clear();
+
+        MemberDTO memberDTO2 = new MemberDTO();
+        memberDTO2.setName("김효일");
+
+        // when
+        Long modifiedId = memberService.modifyMemberInfo(savedId, memberDTO2);
+        Member modifiedMember = memberService.getMember(modifiedId);
+
+        // then
+        assertThat(modifiedMember.getId()).isEqualTo(member1.getId());
+        assertThat(modifiedMember.getName()).isNotEqualTo(member1.getName());
+    }
 }
