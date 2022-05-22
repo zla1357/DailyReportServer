@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,8 +42,13 @@ public class ReportController {
 
     @GetMapping("reports")
     @ResponseBody
-    public List<Report> getReportsInPeriod(@RequestParam String startDate, @RequestParam String endDate) {
-        return reportService.searchReportsInPeriod(startDate, endDate);
+    public List<ReportDTO> getReportsInPeriod(@RequestParam String startDate, @RequestParam String endDate) {
+
+        return reportService
+                .searchReportsInPeriod(startDate, endDate)
+                .stream()
+                .map((e) -> modelMapper.map(e, ReportDTO.class))
+                .collect(Collectors.toList());
     }
 
     @PutMapping("report/{id}")
