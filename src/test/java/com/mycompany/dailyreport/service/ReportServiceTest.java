@@ -103,6 +103,7 @@ class ReportServiceTest {
         Report report2 = reportService.getReport(modifyId);
 
         // then
-        assertThat(report1).isNotEqualTo(report2);
+        assertThat(report1.getId()).isEqualTo(report2.getId());
+        assertThat(report1.getContent()).isNotEqualTo(report2.getContent());
     }
 }
