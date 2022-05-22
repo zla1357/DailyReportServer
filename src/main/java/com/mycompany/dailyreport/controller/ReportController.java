@@ -6,7 +6,6 @@ import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import com.mycompany.dailyreport.service.MemberService;
 import com.mycompany.dailyreport.service.ReportService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +18,14 @@ public class ReportController {
 
     private final ReportService reportService;
     private final MemberService memberService;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping("report")
     @ResponseBody
     public String registerReport(@RequestBody ReportDTO reportDTO) {
 
-        Member registerMember = memberService.getMember(reportDTO.getMemberId());
-        reportService.registerReport(new Report(reportDTO, registerMember));
+        Member member = memberService.getMember(reportDTO.getMember().getId());
+        Report report = new Report(member, reportDTO.getContent());
+        reportService.registerReport(report);
 
         return "OK";
     }
@@ -35,9 +34,7 @@ public class ReportController {
     @ResponseBody
     public ReportDTO getReport(@PathVariable("id") Long id) {
 
-        Report report = reportService.getReport(id);
-
-        return modelMapper.map(report, ReportDTO.class);
+        return ReportDTO.from(reportService.getReport(id));
     }
 
     @GetMapping("reports")
@@ -47,7 +44,7 @@ public class ReportController {
         return reportService
                 .searchReportsInPeriod(startDate, endDate)
                 .stream()
-                .map((e) -> modelMapper.map(e, ReportDTO.class))
+                .map(ReportDTO::from)
                 .collect(Collectors.toList());
     }
 
