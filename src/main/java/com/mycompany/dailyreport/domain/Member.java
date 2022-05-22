@@ -25,4 +25,9 @@ public class Member extends CommonField {
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
     }
+
+    public void changeMemberInfo(MemberDTO memberDTO) {
+        this.name = memberDTO.getName();
+        super.updateDate = LocalDateTime.now();
+    }
 }
