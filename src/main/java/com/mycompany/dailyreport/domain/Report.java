@@ -22,9 +22,9 @@ public class Report extends CommonField {
     private Member member;
     private String content;
 
-    public Report(ReportDTO reportDTO, Member member) {
+    public Report(Member member, String content) {
         this.member = member;
-        this.content = reportDTO.getContent();
+        this.content = content;
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
     }
