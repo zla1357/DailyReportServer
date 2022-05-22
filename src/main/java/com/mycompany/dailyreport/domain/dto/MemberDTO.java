@@ -1,15 +1,20 @@
 package com.mycompany.dailyreport.domain.dto;
 
-import lombok.AllArgsConstructor;
+import com.mycompany.dailyreport.domain.Member;
+import com.mycompany.dailyreport.domain.ModelMapperUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class MemberDTO {
 
+    private Long id;
     private String name;
+
+    public static MemberDTO from(Member member) {
+        return ModelMapperUtils.getModelMapper().map(member, MemberDTO.class);
+    }
 }
