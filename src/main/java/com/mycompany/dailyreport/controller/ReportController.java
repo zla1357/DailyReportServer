@@ -30,8 +30,17 @@ public class ReportController {
 
     @GetMapping("report/{id}")
     @ResponseBody
-    public Report getReport(@PathVariable("id") Long id) {
-        return reportService.getReport(id);
+    public ReportDTO getReport(@PathVariable("id") Long id) {
+
+        Report report = reportService.getReport(id);
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setId(report.getId());
+        reportDTO.setContent(report.getContent());
+        reportDTO.setMemberId(report.getMember().getId());
+        reportDTO.setInputDate(report.getInputDate());
+        reportDTO.setUpdateDate(report.getUpdateDate());
+
+        return reportDTO;
     }
 
     @GetMapping("reports")
