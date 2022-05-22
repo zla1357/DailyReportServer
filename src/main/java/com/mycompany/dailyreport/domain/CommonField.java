@@ -1,13 +1,12 @@
 package com.mycompany.dailyreport.domain;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@Getter
 public abstract class CommonField {
 
     protected LocalDateTime inputDate;
