@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,5 +28,5 @@ public class MenuItem extends CommonField {
     private MenuItem parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<MenuItem> child;
+    private List<MenuItem> child = new ArrayList<>();
 }
