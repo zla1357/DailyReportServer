@@ -4,6 +4,7 @@ import com.mycompany.dailyreport.domain.Member;
 import com.mycompany.dailyreport.domain.Report;
 import com.mycompany.dailyreport.domain.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +22,26 @@ class MemberServiceTest {
     @Autowired
     EntityManager em;
 
+    ModelMapper modelMapper = new ModelMapper();
+
     @Test
     public void 사용자_등록() throws Exception {
         // given
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setName("김효중");
-        Member member = new Member(memberDTO);
+
+        Member member = modelMapper.map(memberDTO, Member.class);
 
         // when
         Long findId = memberService.registerMember(member);
 
+        em.flush();
+        em.clear();
+
         // then
         Member findMember = memberService.getMember(findId);
-        assertThat(findMember).isEqualTo(member);
+        assertThat(findMember.getId()).isEqualTo(member.getId());
+        assertThat(findMember.getName()).isEqualTo(member.getName());
     }
 
     @Test

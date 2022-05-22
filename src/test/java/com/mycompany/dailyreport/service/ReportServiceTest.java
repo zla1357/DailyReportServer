@@ -1,10 +1,12 @@
 package com.mycompany.dailyreport.service;
 
 import com.mycompany.dailyreport.domain.Member;
+import com.mycompany.dailyreport.domain.ModelMapperUtils;
 import com.mycompany.dailyreport.domain.Report;
 import com.mycompany.dailyreport.domain.dto.MemberDTO;
 import com.mycompany.dailyreport.domain.dto.ReportDTO;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ReportServiceTest {
 
     @Autowired
-    ReportService reportService;
+    private ReportService reportService;
 
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
     @Autowired
-    EntityManager em;
+    private EntityManager em;
+
+    private final  ModelMapper modelMapper = new ModelMapper();
 
     @Test
     public void 업무일지_등록() throws Exception {
@@ -37,12 +41,13 @@ class ReportServiceTest {
 
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setName("김효중");
-        Member member = new Member(memberDTO);
+        Member member = modelMapper.map(memberDTO, Member.class);
         memberService.registerMember(member);
 
         ReportDTO reportDTO = new ReportDTO();
         reportDTO.setContent("일했다");
-        Report report = new Report(reportDTO, member);
+        reportDTO.setMember(memberDTO);
+        Report report = new Report(member, reportDTO.getContent());
 
         // when
         Long registerReportId = reportService.registerReport(report);
@@ -55,20 +60,19 @@ class ReportServiceTest {
     @Test
     public void 기간내_업무일지_조회() throws Exception {
         // given
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setContent("일했다");
-
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setName("김효중");
-        Member member = new Member(memberDTO);
+        Member member = ModelMapperUtils.getModelMapper().map(memberDTO, Member.class);
         memberService.registerMember(member);
 
-        Report report = new Report(reportDTO, member);
-        Long saveReportId = reportService.registerReport(report);
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setContent("일했다");
+        reportDTO.setMember(memberDTO);
+
+        Report report = new Report(member, reportDTO.getContent());
+        reportService.registerReport(report);
 
         // when
-        LocalDate endDate = LocalDate.now().plusDays(1);
-
         String startPeriod = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         String endPeriod = LocalDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -82,15 +86,17 @@ class ReportServiceTest {
     @Test
     public void 업무일지_수정() throws Exception {
         // given
-        ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setContent("일했다");
 
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setName("김효중");
         Member member = new Member(memberDTO);
         memberService.registerMember(member);
 
-        Long saveId = reportService.registerReport(new Report(reportDTO, member));
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setContent("일했다");
+        reportDTO.setMember(memberDTO);
+
+        Long saveId = reportService.registerReport(new Report(member, reportDTO.getContent()));
         Report report1 = reportService.getReport(saveId);
         em.flush();
         em.clear();
