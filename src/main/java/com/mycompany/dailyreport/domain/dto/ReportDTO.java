@@ -1,12 +1,13 @@
 package com.mycompany.dailyreport.domain.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportDTO {
 
     private Long id;
