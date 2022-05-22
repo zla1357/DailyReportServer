@@ -1,6 +1,7 @@
 package com.mycompany.dailyreport.service;
 
 import com.mycompany.dailyreport.domain.Member;
+import com.mycompany.dailyreport.domain.dto.MemberDTO;
 import com.mycompany.dailyreport.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,15 @@ public class MemberService {
 
     public Member getMember(Long id) {
         return memberRepository.findOne(id);
+    }
+
+    public Long modifyMemberInfo(Long id, MemberDTO memberDTO) {
+
+        Member member = memberRepository.findOne(id);
+        member.changeMemberInfo(memberDTO);
+
+        memberRepository.save(member);
+
+        return id;
     }
 }
