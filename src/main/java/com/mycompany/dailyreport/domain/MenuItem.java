@@ -29,4 +29,11 @@ public class MenuItem extends CommonField {
 
     @OneToMany(mappedBy = "parent")
     private List<MenuItem> child = new ArrayList<>();
+
+    public MenuItem(String menuName, Long sortSeq, ItemClass itemClass, MenuItem parent) {
+        this.menuName = menuName;
+        this.sortSeq = sortSeq;
+        this.itemClass = itemClass;
+        this.parent = parent;
+    }
 }
