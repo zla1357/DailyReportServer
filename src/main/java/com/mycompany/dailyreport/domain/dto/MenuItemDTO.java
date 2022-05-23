@@ -2,14 +2,13 @@ package com.mycompany.dailyreport.domain.dto;
 
 import com.mycompany.dailyreport.domain.ItemClass;
 import com.mycompany.dailyreport.domain.MenuItem;
-import lombok.AllArgsConstructor;
+import com.mycompany.dailyreport.domain.ModelMapperUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class MenuItemDTO {
 
@@ -17,4 +16,8 @@ public class MenuItemDTO {
     private Long sortSeq;
     private MenuItem parent;
     private ItemClass itemClass;
+
+    public static MenuItemDTO from(MenuItem menuItem) {
+        return ModelMapperUtils.getModelMapper().map(menuItem, MenuItemDTO.class);
+    }
 }
