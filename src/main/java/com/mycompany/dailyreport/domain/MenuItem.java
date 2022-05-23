@@ -35,5 +35,6 @@ public class MenuItem extends CommonField {
         this.sortSeq = sortSeq;
         this.itemClass = itemClass;
         this.parent = parent;
+        this.child = new ArrayList<>();
     }
 }
