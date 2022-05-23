@@ -36,5 +36,9 @@ public class MenuItem extends CommonField {
         this.itemClass = itemClass;
         this.parent = parent;
         this.child = new ArrayList<>();
+
+        if(parent != null) {
+            parent.getChild().add(this);
+        }
     }
 }
