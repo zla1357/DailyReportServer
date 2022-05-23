@@ -24,7 +24,8 @@ public class MemberController {
 
     @GetMapping("member/{id}")
     @ResponseBody
-    public Member getMember(@PathVariable("id") Long id) {
-        return memberService.getMember(id);
+    public MemberDTO getMember(@PathVariable("id") Long id) {
+
+        return MemberDTO.from(memberService.getMember(id));
     }
 }
