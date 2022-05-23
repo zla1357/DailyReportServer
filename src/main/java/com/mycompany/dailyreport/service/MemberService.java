@@ -25,13 +25,13 @@ public class MemberService {
         return memberRepository.findOne(id);
     }
 
-    public Long modifyMemberInfo(Long id, MemberDTO memberDTO) {
+    public Long modifyMemberInfo(MemberDTO memberDTO) {
 
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findOne(memberDTO.getId());
         member.changeMemberInfo(memberDTO);
 
         memberRepository.save(member);
 
-        return id;
+        return memberDTO.getId();
     }
 }
