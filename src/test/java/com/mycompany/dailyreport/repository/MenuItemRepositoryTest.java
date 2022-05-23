@@ -28,7 +28,6 @@ class MenuItemRepositoryTest {
         MenuItem savedItem = menuItemRepository.findOne(menuItem.getId());
 
         // then
-        assertThat(savedItem.getId()).isEqualTo(1L);
         assertThat(savedItem.getMenuName()).isEqualTo("업무일지");
         assertThat(savedItem.getItemClass()).isEqualTo(ItemClass.MASTER);
     }

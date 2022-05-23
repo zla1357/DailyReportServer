@@ -29,7 +29,6 @@ class MenuItemServiceTest {
         MenuItem menuItem = menuItemService.getMenuItem(savedId);
 
         // then
-        assertThat(menuItem.getId()).isEqualTo(1L);
         assertThat(menuItem.getItemClass()).isEqualTo(ItemClass.MASTER);
         assertThat(menuItem.getMenuName()).isEqualTo("메뉴1");
         assertThat(menuItem.getSortSeq()).isEqualTo(1L);
