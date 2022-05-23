@@ -18,7 +18,7 @@ class MenuItemServiceTest {
     private MenuItemService menuItemService;
 
     @Test
-    public void 메뉴항목_저장() throws Exception {
+    public void Master_항목_저장() throws Exception {
         // given
         MenuItemDTO menuItemDTO = new MenuItemDTO();
         menuItemDTO.setMenuName("메뉴1");
@@ -26,7 +26,6 @@ class MenuItemServiceTest {
 
         // when
         Long savedId = menuItemService.addMenuItem(menuItemDTO);
-        System.out.println("savedId = " + savedId);
         MenuItem menuItem = menuItemService.getMenuItem(savedId);
 
         // then
@@ -34,5 +33,40 @@ class MenuItemServiceTest {
         assertThat(menuItem.getItemClass()).isEqualTo(ItemClass.MASTER);
         assertThat(menuItem.getMenuName()).isEqualTo("메뉴1");
         assertThat(menuItem.getSortSeq()).isEqualTo(1L);
+    }
+
+    @Test
+    public void Sub_항목_저장() throws Exception {
+        // given
+        MenuItemDTO masterItemDTO = new MenuItemDTO();
+        masterItemDTO.setMenuName("메뉴1");
+        masterItemDTO.setItemClass(ItemClass.MASTER);
+
+        Long masterId = menuItemService.addMenuItem(masterItemDTO);
+        MenuItem masterItem = menuItemService.getMenuItem(masterId);
+
+        MenuItemDTO subItemDTO = new MenuItemDTO();
+        subItemDTO.setMenuName("서브메뉴");
+        subItemDTO.setItemClass(ItemClass.SUB);
+        subItemDTO.setParent(masterItem);
+
+        Long subId = menuItemService.addMenuItem(subItemDTO);
+        MenuItem subItem = menuItemService.getMenuItem(subId);
+
+        MenuItemDTO subItemDTO2 = new MenuItemDTO();
+        subItemDTO2.setMenuName("서브메뉴2");
+        subItemDTO2.setItemClass(ItemClass.SUB);
+        subItemDTO2.setParent(masterItem);
+
+        Long subId2 = menuItemService.addMenuItem(subItemDTO2);
+        MenuItem subItem2 = menuItemService.getMenuItem(subId2);
+
+        // when
+
+        // then
+        assertThat(subItem2.getItemClass()).isEqualTo(ItemClass.SUB);
+        assertThat(subItem2.getMenuName()).isEqualTo("서브메뉴2");
+        assertThat(subItem2.getSortSeq()).isEqualTo(2L);
+        assertThat(subItem2.getParent()).isEqualTo(masterItem);
     }
 }
