@@ -59,9 +59,10 @@ class MemberServiceTest {
 
         MemberDTO memberDTO2 = new MemberDTO();
         memberDTO2.setName("김효일");
+        memberDTO2.setId(savedId);
 
         // when
-        Long modifiedId = memberService.modifyMemberInfo(savedId, memberDTO2);
+        Long modifiedId = memberService.modifyMemberInfo(memberDTO2);
         Member modifiedMember = memberService.getMember(modifiedId);
 
         // then
