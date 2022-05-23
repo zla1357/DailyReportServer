@@ -29,8 +29,8 @@ public class MenuItemRepository {
 
     public Long getMasterMaxSortSeq() {
         return em.createQuery(
-                "select max(i.sortSeq) from " +
-                        "MenuItem i " +
+                "select case when max(i.sortSeq) is null then 0L else max(i.sortSeq) end " +
+                        "from MenuItem i " +
                         "where i.itemClass = :itemClass", Long.class)
                 .setParameter("itemClass", ItemClass.MASTER)
                 .getSingleResult();
