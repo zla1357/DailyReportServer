@@ -1,11 +1,11 @@
 package com.mycompany.dailyreport.repository;
 
+import com.mycompany.dailyreport.domain.ItemClass;
 import com.mycompany.dailyreport.domain.MenuItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,6 +18,32 @@ public class MenuItemRepository {
     }
 
     public MenuItem findOne(Long id) {
-        return em.find(MenuItem.class, id);
+        return em.createQuery(
+                "select i " +
+                        "from MenuItem i " +
+                        "left join fetch i.parent " +
+                        "where i.id = :id", MenuItem.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    public Long getMasterMaxSortSeq() {
+        return em.createQuery(
+                "select max(i.sortSeq) from " +
+                        "MenuItem i " +
+                        "where i.itemClass = :itemClass", Long.class)
+                .setParameter("itemClass", ItemClass.MASTER)
+                .getSingleResult();
+    }
+
+    public Long getSubMaxSortSeq(MenuItem parent) {
+        return em.createQuery(
+                        "select max(i.sortSeq) from " +
+                                "MenuItem i " +
+                                "where i.parent = :parent " +
+                                "and i.itemClass = :itemClass", Long.class)
+                .setParameter("parent", parent)
+                .setParameter("itemClass", ItemClass.SUB)
+                .getSingleResult();
     }
 }
