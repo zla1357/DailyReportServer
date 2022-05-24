@@ -1,12 +1,15 @@
 package com.mycompany.dailyreport.domain;
 
+import com.mycompany.dailyreport.domain.dto.MenuItemDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -30,15 +33,30 @@ public class MenuItem extends CommonField {
     @OneToMany(mappedBy = "parent")
     private List<MenuItem> child = new ArrayList<>();
 
-    public MenuItem(String menuName, Long sortSeq, ItemClass itemClass, MenuItem parent) {
-        this.menuName = menuName;
-        this.sortSeq = sortSeq;
-        this.itemClass = itemClass;
-        this.parent = parent;
+    public MenuItem(MenuItemDTO menuItemDTO) {
+        this.menuName = menuItemDTO.getMenuName();
+        this.sortSeq = menuItemDTO.getSortSeq();
+        this.itemClass = menuItemDTO.getItemClass();
+        this.parent = menuItemDTO.getParent();
         this.child = new ArrayList<>();
+        super.inputDate = LocalDateTime.now();
+        super.updateDate = LocalDateTime.now();
 
         if(parent != null) {
             parent.getChild().add(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return Objects.equals(getId(), menuItem.getId()) && Objects.equals(getMenuName(), menuItem.getMenuName()) && Objects.equals(getSortSeq(), menuItem.getSortSeq()) && getItemClass() == menuItem.getItemClass() && Objects.equals(getParent(), menuItem.getParent()) && Objects.equals(getChild(), menuItem.getChild());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getMenuName(), getSortSeq(), getItemClass(), getParent(), getChild());
     }
 }
