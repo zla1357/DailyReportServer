@@ -20,9 +20,7 @@ class MenuItemServiceTest {
     @Test
     public void Master_항목_저장() throws Exception {
         // given
-        MenuItemDTO menuItemDTO = new MenuItemDTO();
-        menuItemDTO.setMenuName("메뉴1");
-        menuItemDTO.setItemClass(ItemClass.MASTER);
+        MenuItemDTO menuItemDTO = new MenuItemDTO("메뉴1", null, null, ItemClass.MASTER);
 
         // when
         Long savedId = menuItemService.addMenuItem(menuItemDTO);
@@ -37,30 +35,19 @@ class MenuItemServiceTest {
     @Test
     public void Sub_항목_저장() throws Exception {
         // given
-        MenuItemDTO masterItemDTO = new MenuItemDTO();
-        masterItemDTO.setMenuName("메뉴1");
-        masterItemDTO.setItemClass(ItemClass.MASTER);
+        MenuItemDTO masterItemDTO = new MenuItemDTO("메뉴1", null, null, ItemClass.MASTER);
 
         Long masterId = menuItemService.addMenuItem(masterItemDTO);
         MenuItem masterItem = menuItemService.getMenuItem(masterId);
 
-        MenuItemDTO subItemDTO = new MenuItemDTO();
-        subItemDTO.setMenuName("서브메뉴");
-        subItemDTO.setItemClass(ItemClass.SUB);
-        subItemDTO.setParent(masterItem);
-
+        // when
+        MenuItemDTO subItemDTO = new MenuItemDTO("서브메뉴", null, masterItem, ItemClass.SUB);
         Long subId = menuItemService.addMenuItem(subItemDTO);
         MenuItem subItem = menuItemService.getMenuItem(subId);
 
-        MenuItemDTO subItemDTO2 = new MenuItemDTO();
-        subItemDTO2.setMenuName("서브메뉴2");
-        subItemDTO2.setItemClass(ItemClass.SUB);
-        subItemDTO2.setParent(masterItem);
-
+        MenuItemDTO subItemDTO2 = new MenuItemDTO("서브메뉴2", null, masterItem, ItemClass.SUB);
         Long subId2 = menuItemService.addMenuItem(subItemDTO2);
         MenuItem subItem2 = menuItemService.getMenuItem(subId2);
-
-        // when
 
         // then
         assertThat(subItem2.getItemClass()).isEqualTo(ItemClass.SUB);
