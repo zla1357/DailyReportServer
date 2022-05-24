@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,5 +46,14 @@ public class MenuItemRepository {
                 .setParameter("parent", parent)
                 .setParameter("itemClass", ItemClass.SUB)
                 .getSingleResult();
+    }
+
+    public List<MenuItem> getMasterMenuList() {
+        return em.createQuery(
+                "select i " +
+                        "from MenuItem i " +
+                        "where i.itemClass = :itemClass", MenuItem.class)
+                .setParameter("itemClass", ItemClass.MASTER)
+                .getResultList();
     }
 }
