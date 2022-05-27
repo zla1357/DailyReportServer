@@ -1,6 +1,7 @@
 package com.mycompany.dailyreport.controller;
 
 import com.mycompany.dailyreport.domain.dto.MenuItemDTO;
+import com.mycompany.dailyreport.domain.dto.SubMenuDTO;
 import com.mycompany.dailyreport.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,18 @@ public class MenuItemController {
                 .map(MenuItemDTO::from)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("menu/sub")
+    @ResponseBody
+    public List<SubMenuDTO> getSubMenu(@RequestParam Long parentId) {
+
+        return menuItemService
+                .getSubMenuList(parentId)
+                .stream()
+                .map(SubMenuDTO::from)
+                .collect(Collectors.toList());
+    }
+
 
     @PostMapping("menu")
     @ResponseBody
