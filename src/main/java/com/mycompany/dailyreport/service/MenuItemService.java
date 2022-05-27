@@ -51,4 +51,9 @@ public class MenuItemService {
     public List<MenuItem> getMasterMenuList() {
         return menuItemRepository.getMasterMenuList();
     }
+
+    public List<MenuItem> getSubMenuList(Long id) {
+
+        return menuItemRepository.getSubMenuList(id);
+    }
 }
