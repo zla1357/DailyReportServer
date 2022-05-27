@@ -57,14 +57,13 @@ public class MenuItemRepository {
                 .getResultList();
     }
 
-    public List<MenuItem> getSubMenuList(MenuItem parent) {
+    public List<MenuItem> getSubMenuList(Long id) {
         return em.createQuery(
                 "select i " +
                         "from MenuItem i " +
-                        "where i.itemClass = :itemClass " +
-                        "and i.parent = :parent", MenuItem.class)
-                .setParameter("itemClass", ItemClass.SUB)
-                .setParameter("parent", parent)
+                        "join fetch i.parent " +
+                        "where i.parent.id = :id", MenuItem.class)
+                .setParameter("id", id)
                 .getResultList();
     }
 }
