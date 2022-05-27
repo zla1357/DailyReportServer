@@ -74,4 +74,25 @@ class MenuItemRepositoryTest {
         // then
         assertThat(items).isEqualTo(masterMenuList);
     }
+
+    @Test
+    public void Sub_메뉴리스트_조회() throws Exception {
+        // given
+        MenuItem masterMenuItem = new MenuItem(new MenuItemDTO("업무일지", 1L, null, ItemClass.MASTER));
+        MenuItem subMenuItem = new MenuItem(new MenuItemDTO("업무일지 작성", 1L, masterMenuItem, ItemClass.SUB));
+        MenuItem subMenuItem2 = new MenuItem(new MenuItemDTO("업무일지 조회", 2L, masterMenuItem, ItemClass.SUB));
+
+        menuItemRepository.save(masterMenuItem);
+        menuItemRepository.save(subMenuItem);
+        menuItemRepository.save(subMenuItem2);
+        List<MenuItem> items = new ArrayList<MenuItem>();
+        items.add(subMenuItem);
+        items.add(subMenuItem2);
+
+        // when
+        List<MenuItem> subMenuList = menuItemRepository.getSubMenuList(masterMenuItem);
+
+        // then
+        assertThat(items).isEqualTo(subMenuList);
+    }
 }
