@@ -23,7 +23,7 @@ class MenuItemRepositoryTest {
     @Test
     public void 메뉴아이템_등록() throws Exception {
         // given
-        MenuItem menuItem = new MenuItem(new MenuItemDTO("업무일지", 1L, null, ItemClass.MASTER));
+        MenuItem menuItem = new MenuItem(new MenuItemDTO(null, "업무일지", 1L, null, ItemClass.MASTER));
         
         // when
         menuItemRepository.save(menuItem);
@@ -38,9 +38,9 @@ class MenuItemRepositoryTest {
     @Test
     public void 순번_MAX_조회() throws Exception {
 
-        MenuItem menuItem = new MenuItem(new MenuItemDTO("업무일지", 1L, null, ItemClass.MASTER));
-        MenuItem menuItem2 = new MenuItem(new MenuItemDTO("업무일지2", 2L, null, ItemClass.MASTER));
-        MenuItem menuItem3 = new MenuItem(new MenuItemDTO("업무일지3", 3L, null, ItemClass.MASTER));
+        MenuItem menuItem = new MenuItem(new MenuItemDTO(null, "업무일지", 1L, null, ItemClass.MASTER));
+        MenuItem menuItem2 = new MenuItem(new MenuItemDTO(null, "업무일지2", 2L, null, ItemClass.MASTER));
+        MenuItem menuItem3 = new MenuItem(new MenuItemDTO(null, "업무일지3", 3L, null, ItemClass.MASTER));
 
         // when
         menuItemRepository.save(menuItem);
@@ -56,9 +56,9 @@ class MenuItemRepositoryTest {
     @Test
     public void Master_메뉴리스트_조회() throws Exception {
         // given
-        MenuItem menuItem = new MenuItem(new MenuItemDTO("업무일지", 1L, null, ItemClass.MASTER));
-        MenuItem menuItem2 = new MenuItem(new MenuItemDTO("업무일지2", 2L, null, ItemClass.MASTER));
-        MenuItem menuItem3 = new MenuItem(new MenuItemDTO("업무일지3", 3L, null, ItemClass.MASTER));
+        MenuItem menuItem = new MenuItem(new MenuItemDTO(null, "업무일지", 1L, null, ItemClass.MASTER));
+        MenuItem menuItem2 = new MenuItem(new MenuItemDTO(null, "업무일지2", 2L, null, ItemClass.MASTER));
+        MenuItem menuItem3 = new MenuItem(new MenuItemDTO(null, "업무일지3", 3L, null, ItemClass.MASTER));
 
         menuItemRepository.save(menuItem);
         menuItemRepository.save(menuItem2);
@@ -78,9 +78,9 @@ class MenuItemRepositoryTest {
     @Test
     public void Sub_메뉴리스트_조회() throws Exception {
         // given
-        MenuItem masterMenuItem = new MenuItem(new MenuItemDTO("업무일지", 1L, null, ItemClass.MASTER));
-        MenuItem subMenuItem = new MenuItem(new MenuItemDTO("업무일지 작성", 1L, masterMenuItem, ItemClass.SUB));
-        MenuItem subMenuItem2 = new MenuItem(new MenuItemDTO("업무일지 조회", 2L, masterMenuItem, ItemClass.SUB));
+        MenuItem masterMenuItem = new MenuItem(new MenuItemDTO(null, "업무일지", 1L, null, ItemClass.MASTER));
+        MenuItem subMenuItem = new MenuItem(new MenuItemDTO(null, "업무일지 작성", 1L, masterMenuItem, ItemClass.SUB));
+        MenuItem subMenuItem2 = new MenuItem(new MenuItemDTO(null, "업무일지 조회", 2L, masterMenuItem, ItemClass.SUB));
 
         menuItemRepository.save(masterMenuItem);
         menuItemRepository.save(subMenuItem);
@@ -90,7 +90,7 @@ class MenuItemRepositoryTest {
         items.add(subMenuItem2);
 
         // when
-        List<MenuItem> subMenuList = menuItemRepository.getSubMenuList(masterMenuItem);
+        List<MenuItem> subMenuList = menuItemRepository.getSubMenuList(masterMenuItem.getId());
 
         // then
         assertThat(items).isEqualTo(subMenuList);
