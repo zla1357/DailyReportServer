@@ -34,7 +34,7 @@ public class MenuItemService {
         if(isMasterItem(menuItemDTO)) {
             result = menuItemRepository.getMasterMaxSortSeq() + 1;
         } else {
-            result = menuItemDTO.getParent().getChild().size() + 1L;
+            result = menuItemRepository.getSubMaxSortSeq(menuItemDTO.getParent()) + 1;
         }
 
         return result;
