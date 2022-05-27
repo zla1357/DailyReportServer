@@ -39,8 +39,8 @@ public class MenuItemRepository {
 
     public Long getSubMaxSortSeq(MenuItem parent) {
         return em.createQuery(
-                        "select max(i.sortSeq) from " +
-                                "MenuItem i " +
+                        "select case when max(i.sortSeq) is null then 0L else max(i.sortSeq) end " +
+                                "from MenuItem i " +
                                 "where i.parent = :parent " +
                                 "and i.itemClass = :itemClass", Long.class)
                 .setParameter("parent", parent)
@@ -54,6 +54,17 @@ public class MenuItemRepository {
                         "from MenuItem i " +
                         "where i.itemClass = :itemClass", MenuItem.class)
                 .setParameter("itemClass", ItemClass.MASTER)
+                .getResultList();
+    }
+
+    public List<MenuItem> getSubMenuList(MenuItem parent) {
+        return em.createQuery(
+                "select i " +
+                        "from MenuItem i " +
+                        "where i.itemClass = :itemClass " +
+                        "and i.parent = :parent", MenuItem.class)
+                .setParameter("itemClass", ItemClass.SUB)
+                .setParameter("parent", parent)
                 .getResultList();
     }
 }
