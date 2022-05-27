@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MenuItemDTO {
 
+    private Long id;
     private String menuName;
     private Long sortSeq;
     private MenuItem parent;
