@@ -62,15 +62,15 @@ class MenuItemServiceTest {
     @Test
     public void sub_항목_조회() throws Exception {
         // given
-        MenuItemDTO parentDTO = new MenuItemDTO(1L, "업무일지", null, null, ItemClass.MASTER);
+        MenuItemDTO parentDTO = new MenuItemDTO(null, "업무일지", null, null, ItemClass.MASTER);
         Long parentId = menuItemService.addMenuItem(parentDTO);
         MenuItem parent = menuItemService.getMenuItem(parentId);
 
-        MenuItemDTO subItemDTO = new MenuItemDTO(1L, "업무일지 조회", null, parent, ItemClass.SUB);
+        MenuItemDTO subItemDTO = new MenuItemDTO(null, "업무일지 조회", null, parent, ItemClass.SUB);
         Long sub1Id = menuItemService.addMenuItem(subItemDTO);
         MenuItem subItem1 = menuItemService.getMenuItem(sub1Id);
 
-        MenuItemDTO parentDTO2 = new MenuItemDTO(2L, "업무일지 수정", null, parent, ItemClass.SUB);
+        MenuItemDTO parentDTO2 = new MenuItemDTO(null, "업무일지 수정", null, parent, ItemClass.SUB);
         Long sub2Id = menuItemService.addMenuItem(parentDTO2);
         MenuItem subItem2 = menuItemService.getMenuItem(sub2Id);
 
@@ -79,9 +79,11 @@ class MenuItemServiceTest {
         subList.add(subItem2);
 
         // when
-        List<MenuItem> subMenuList = menuItemService.getSubMenuList(parentDTO.getId());
+        List<MenuItem> subMenuList = menuItemService.getSubMenuList(parent.getId());
 
         // then
+        System.out.println("subMenuList = " + subMenuList);
+        System.out.println("subList = " + subList);
         assertThat(subMenuList).isEqualTo(subList);
     }
 }
