@@ -33,12 +33,16 @@ public class MenuItem extends CommonField {
     @OneToMany(mappedBy = "parent")
     private List<MenuItem> child = new ArrayList<>();
 
+    @Embedded
+    private ItemContent itemContent;
+
     public MenuItem(MenuItemDTO menuItemDTO) {
         this.menuName = menuItemDTO.getMenuName();
         this.sortSeq = menuItemDTO.getSortSeq();
         this.itemClass = menuItemDTO.getItemClass();
         this.parent = menuItemDTO.getParent();
         this.child = new ArrayList<>();
+        this.itemContent = menuItemDTO.getItemContent();
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
 
