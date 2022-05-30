@@ -46,4 +46,10 @@ public class MenuItemController {
         menuItemService.addMenuItem(menuItemDTO);
         return "OK";
     }
+
+    @GetMapping("menu")
+    @ResponseBody
+    public SubMenuDTO getMenu(@RequestParam Long id) {
+        return SubMenuDTO.from(menuItemService.getMenuItem(id));
+    }
 }
