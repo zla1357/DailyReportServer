@@ -15,4 +15,5 @@ public class ItemContent {
 
     // 콤마로 구분된 파라미터 리스트
     private String reqParam;
+    private String method;
 }
