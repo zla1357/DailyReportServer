@@ -19,6 +19,8 @@ public class Member extends CommonField {
     @GeneratedValue
     private Long id;
     private String name;
+    private String accountId;
+    private String password;
 
     public Member(MemberDTO memberDTO) {
         this.name = memberDTO.getName();

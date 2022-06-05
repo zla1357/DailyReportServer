@@ -29,6 +29,8 @@ class MemberServiceTest {
         // given
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setName("김효중");
+        memberDTO.setAccountId("zla1275");
+        memberDTO.setPassword("password");
 
         Member member = modelMapper.map(memberDTO, Member.class);
 
@@ -42,6 +44,8 @@ class MemberServiceTest {
         Member findMember = memberService.getMember(findId);
         assertThat(findMember.getId()).isEqualTo(member.getId());
         assertThat(findMember.getName()).isEqualTo(member.getName());
+        assertThat(findMember.getAccountId()).isEqualTo(member.getAccountId());
+        assertThat(findMember.getPassword()).isEqualTo(member.getPassword());
     }
 
     @Test

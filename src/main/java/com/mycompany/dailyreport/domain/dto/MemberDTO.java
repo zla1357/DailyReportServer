@@ -13,6 +13,8 @@ public class MemberDTO {
 
     private Long id;
     private String name;
+    private String accountId;
+    private String password;
 
     public static MemberDTO from(Member member) {
         return ModelMapperUtils.getModelMapper().map(member, MemberDTO.class);
