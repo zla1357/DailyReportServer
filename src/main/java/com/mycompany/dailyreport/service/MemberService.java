@@ -17,7 +17,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long registerMember(Member member) {
+    public Long registerMember(Member member) throws IllegalArgumentException {
 
         validationAccount(member);
         memberRepository.save(member);
@@ -25,7 +25,7 @@ public class MemberService {
         return member.getId();
     }
 
-    public void validationAccount(Member member) {
+    private void validationAccount(Member member) {
         List<Member> findMembers = memberRepository.findByAccountId(member.getAccountId());
         if(findMembers.size() > 0) {
             throw new IllegalArgumentException("중복된 계정명입니다.");
