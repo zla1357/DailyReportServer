@@ -82,8 +82,6 @@ class MenuItemServiceTest {
         List<MenuItem> subMenuList = menuItemService.getSubMenuList(parent.getId());
 
         // then
-        System.out.println("subMenuList = " + subMenuList);
-        System.out.println("subList = " + subList);
         assertThat(subMenuList).isEqualTo(subList);
     }
 }
