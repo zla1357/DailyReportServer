@@ -1,10 +1,9 @@
 package com.mycompany.dailyreport.service;
 
 import com.mycompany.dailyreport.domain.Member;
-import com.mycompany.dailyreport.domain.Report;
 import com.mycompany.dailyreport.domain.dto.MemberDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +21,6 @@ class MemberServiceTest {
     @Autowired
     EntityManager em;
 
-    ModelMapper modelMapper = new ModelMapper();
-
     @Test
     public void 사용자_등록() throws Exception {
         // given
@@ -32,7 +29,7 @@ class MemberServiceTest {
         memberDTO.setAccountId("zla1275");
         memberDTO.setPassword("password");
 
-        Member member = modelMapper.map(memberDTO, Member.class);
+        Member member = new Member(memberDTO);
 
         // when
         Long findId = memberService.registerMember(member);
@@ -72,5 +69,27 @@ class MemberServiceTest {
         // then
         assertThat(modifiedMember.getId()).isEqualTo(member1.getId());
         assertThat(modifiedMember.getName()).isNotEqualTo(member1.getName());
+    }
+    
+    @Test
+    public void 사용자_중복_등록_방지() throws Exception {
+        // given
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setName("김효중");
+        memberDTO.setAccountId("zla1275");
+        memberDTO.setPassword("password");
+
+        // when
+        memberService.registerMember(new Member(memberDTO));
+
+        // then
+        Assertions.assertThrows(IllegalArgumentException.class, () ->{
+
+            MemberDTO memberDTO2 = new MemberDTO();
+            memberDTO2.setName("김효중");
+            memberDTO2.setAccountId("zla1275");
+            memberDTO2.setPassword("password");
+            memberService.registerMember(new Member(memberDTO2));
+        });
     }
 }

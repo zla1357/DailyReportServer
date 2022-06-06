@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,11 +20,16 @@ public class Member extends CommonField {
     @GeneratedValue
     private Long id;
     private String name;
+
+    @Column(unique = true)
     private String accountId;
+
     private String password;
 
     public Member(MemberDTO memberDTO) {
         this.name = memberDTO.getName();
+        this.accountId = memberDTO.getAccountId();
+        this.password = memberDTO.getPassword();
         super.inputDate = LocalDateTime.now();
         super.updateDate = LocalDateTime.now();
     }
