@@ -21,13 +21,14 @@ public class ReportController {
 
     @PostMapping("report")
     @ResponseBody
-    public String registerReport(@RequestBody ReportDTO reportDTO) {
+    public ReportDTO registerReport(@RequestBody ReportDTO reportDTO) {
 
         Member member = memberService.getMember(reportDTO.getMember().getId());
         Report report = new Report(member, reportDTO.getContent());
-        reportService.registerReport(report);
 
-        return "OK";
+        Report resultReport = reportService.getReport(reportService.registerReport(report));
+
+        return ReportDTO.from(resultReport);
     }
 
     @GetMapping("report/{id}")
@@ -50,10 +51,10 @@ public class ReportController {
 
     @PutMapping("report/{id}")
     @ResponseBody
-    public String modifyReport(@PathVariable("id") Long id, @RequestBody ReportDTO reportDTO) {
+    public ReportDTO modifyReport(@PathVariable("id") Long id, @RequestBody ReportDTO reportDTO) {
 
-        reportService.modifyReport(id, reportDTO);
+        Long modifyReport = reportService.modifyReport(id, reportDTO);
 
-        return "OK";
+        return ReportDTO.from(reportService.getReport(modifyReport));
     }
 }
